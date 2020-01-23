@@ -22,10 +22,10 @@ class Item(models.Model):
         default='A',
     )
 
-    BASE_MAKE_UP = 'BASE'
-    SUN_CARE = 'SUNC'
-    MASK_PACK = 'MASK'
-    SKIN_CARE = 'SKIN'
+    BASE_MAKE_UP = 'basemakeup'
+    SUN_CARE = 'suncare'
+    MASK_PACK = 'maskpack'
+    SKIN_CARE = 'skincare'
     CATEGORY_CHOICES = [
         (BASE_MAKE_UP, 'basemakeup'),
         (SUN_CARE, 'suncare'),
@@ -40,4 +40,12 @@ class Item(models.Model):
 
     price = models.IntegerField(default=0)
     ingredients = models.ManyToManyField(Ingredient)
+    ingredient_string = models.CharField(max_length=150, null=True)
     monthlySales = models.IntegerField(default=0)
+
+    @property
+    def get_oily_point(self):
+        oily_point = 0
+        for ingredient in self.ingredients.all():
+            oily_point += ingredient.oily
+        return oily_point
