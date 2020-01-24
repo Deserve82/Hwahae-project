@@ -21,6 +21,6 @@ from myapp.item import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('products/', views.product_list),
-    path('product/<int:id>', views.product_detail),
+    path('product/<int:item_id>', views.product_detail),
     path(r'', home.index),
 ]
