@@ -26,17 +26,17 @@ def product_list(request):
         exclude_ingredient = []
     
     if skin_type is None:
-        error_non_skin_type = "please let me know your skin type!"
-        return HttpResponse(error_non_skin_type)
+        non_skin_type_Error = "please let me know your skin type!"
+        return HttpResponse(non_skin_type_Error)
     elif skin_type == "oily":
-        items = Item.objects.annotate(dry_point=Sum('ingredients__dry')).order_by('-dry_point', 'price')
+        items = Item.objects.annotate(oily_point=Sum('ingredients__oily')).order_by('-oily_point', 'price')
     elif skin_type == "dry":
         items = Item.objects.annotate(dry_point=Sum('ingredients__dry')).order_by('-dry_point', 'price')
     elif skin_type == "sensitivity":
-        items = Item.objects.annotate(sensitivity_point=Sum('sensitivity__dry')).order_by('-sensitivity_point', 'price')
+        items = Item.objects.annotate(sensitivity_point=Sum('ingredients__sensitivity')).order_by('-sensitivity_point', 'price')
     else:
-        error_wrong_skin_type = "please check your skin type again!"
-        return HttpResponse(error_wrong_skin_type)
+        wrong_skin_type_Error = "please check your skin type again!"
+        return HttpResponse(wrong_skin_type_Error)
 
     item_list = filt_by_types(items, ingredients, category, page, include_ingredient, exclude_ingredient)
 
