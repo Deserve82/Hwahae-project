@@ -49,3 +49,17 @@ class Item(models.Model):
         for ingredient in self.ingredients.all():
             oily_point += ingredient.oily
         return oily_point
+    
+    @property
+    def get_dry_point(self):
+        dry_point = 0
+        for ingredient in self.ingredients.all():
+            dry_point += ingredient.dry
+        return dry_point
+    
+    @property
+    def get_sensitivity_point(self):
+        sensitivity_point = 0
+        for ingredient in self.ingredients.all():
+            sensitivity_point += ingredient.sensitivity
+        return sensitivity_point
