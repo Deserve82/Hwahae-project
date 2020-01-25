@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'myapp.home',
-    'myapp.item'
+    'myapp.item',
+    #'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    #'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'myapp.urls'
@@ -70,6 +72,8 @@ TEMPLATES = [
         },
     },
 ]
+
+#INTERNAL_IPS = ('127.0.0.1',)
 
 WSGI_APPLICATION = 'myapp.wsgi.application'
 
