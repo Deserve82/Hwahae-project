@@ -26,8 +26,8 @@ class Item(models.Model):
     또한 response할 때에도 빠르게 찾아 올 수 있어 포함 되어 있는 성분 자료를 두 개로 나누었습니다.
     """
 
-    imageId = models.CharField(max_length=37, null=True)
-    name = models.CharField(max_length=32)
+    imageId = models.CharField(max_length=60, null=True)
+    name = models.CharField(max_length=100)
 
     MALE = 'male'
     FEMALE = 'female'
@@ -54,14 +54,14 @@ class Item(models.Model):
         (SKIN_CARE, 'skincare'),
     ]
     category = models.CharField(
-        max_length=32,
+        max_length=12,
         choices=CATEGORY_CHOICES,
         default=None,
     )
 
     price = models.IntegerField(default=0)
     ingredients = models.ManyToManyField(Ingredient)
-    ingredient_string = models.CharField(max_length=150, null=True)
+    ingredient_string = models.CharField(max_length=200, null=True)
     monthly_sales = models.IntegerField(default=0)
 
     # 각 Item의 포함되어 있는 점수를 확인 할 수 있는 함수를 선언했습니다.
