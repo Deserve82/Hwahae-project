@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Sum, Q
 from functools import reduce
 from operator import and_
+from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
@@ -85,9 +86,9 @@ class Item(models.Model):
         for ingredient in self.ingredients.all():
             sensitivity_point += ingredient.sensitivity
         return sensitivity_point
-    
-    def get_absolute_url(self):
-        return reverse('item:product_detail', args=[self.id])
+
+    def __str__(self):
+        return self.name
 
 
 def input_skin_type(Item, skin_type, recommend):
@@ -139,8 +140,8 @@ def filt_by_types(items, ingredients, category, page, include_ingredient, exclud
             items = items.filter(reduce(and_, (Q(ingredient_string__contains=ingredient.name) \
                                                 for ingredient in include_list)))
         except:
-            non_match_item_error = []
-            return non_match_item_error
+            non_match_item = []
+            return non_match_item
     
     # 제외 성분은 OR 형식이기 때문에 __in을 통해 한 번만 걸렀습니다.
     if exclude_ingredient:
