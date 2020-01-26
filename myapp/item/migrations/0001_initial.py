@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
             name='Item',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=32)),
+                ('name', models.CharField(max_length=100)),
                 ('quantity', models.IntegerField(max_length=254)),
             ],
         ),
