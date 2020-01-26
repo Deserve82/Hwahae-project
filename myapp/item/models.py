@@ -113,7 +113,7 @@ def input_skin_type(Item, skin_type, recommend):
                                                     .order_by('-dry_point', 'price')
         return dry_items
 
-    elif skin_type == "sensitivity":
+    elif skin_type == "sensitive":
         if recommend:
             sensitivity_items = Item.objects.annotate(sensitivity_point=Sum('ingredients__sensitivity'))\
                                                     .order_by('-sensitivity_point', 'price')[:3]

@@ -2844,7 +2844,7 @@
             "pk": 285,
             "model": "item.ingredient",
             "fields": {
-                "name": "sensitivity",
+                "name": "sensitive",
                 "oily": 1,
                 "dry": 1,
                 "sensitivity": 1
@@ -17395,6 +17395,7 @@
                 956,
                 142,
                 620,
+                285,
                 841,
                 487,
                 445,
@@ -18817,7 +18818,6 @@
             "gender": "male",
             "category": "basemakeup",
             "ingredients": [
-                285,
                 552,
                 930,
                 20,
@@ -18921,6 +18921,7 @@
             "gender": "all",
             "category": "basemakeup",
             "ingredients": [
+                285,
                 93,
                 467
             ],
@@ -19519,7 +19520,6 @@
             "gender": "all",
             "category": "suncare",
             "ingredients": [
-                285,
                 552,
                 838,
                 834,
@@ -19545,6 +19545,7 @@
             "ingredients": [
                 749,
                 535,
+                285,
                 969,
                 372,
                 92
@@ -20264,6 +20265,7 @@
             "gender": "male",
             "category": "basemakeup",
             "ingredients": [
+                285,
                 722,
                 46,
                 779,
@@ -21204,6 +21206,7 @@
                 999,
                 394,
                 393,
+                285,
                 922
             ],
             "monthly_sales": 3859,
@@ -21625,7 +21628,6 @@
             "gender": "male",
             "category": "basemakeup",
             "ingredients": [
-                285,
                 552,
                 348,
                 111,
@@ -22011,7 +22013,6 @@
             "gender": "all",
             "category": "suncare",
             "ingredients": [
-                285,
                 552,
                 855,
                 385
@@ -24228,6 +24229,7 @@
                 900,
                 999,
                 239,
+                285,
                 698,
                 868
             ],
@@ -24813,6 +24815,7 @@
             "ingredients": [
                 457,
                 818,
+                285,
                 645,
                 662,
                 378,
@@ -25146,7 +25149,6 @@
                 794,
                 423,
                 9,
-                285,
                 552,
                 979,
                 976,
@@ -27845,7 +27847,8 @@
             "ingredients": [
                 356,
                 27,
-                597
+                597,
+                285
             ],
             "monthly_sales": 3055,
             "ingredient_string": "admission,motorcycle,transport,sensitive"
@@ -29769,7 +29772,8 @@
                 678,
                 946,
                 201,
-                763
+                763,
+                285
             ],
             "monthly_sales": 1468,
             "ingredient_string": "salesperson,difficult,weight,stress,charismatic,tablet,sensitive"
@@ -29831,6 +29835,7 @@
             "category": "basemakeup",
             "ingredients": [
                 796,
+                285,
                 925,
                 470,
                 480,

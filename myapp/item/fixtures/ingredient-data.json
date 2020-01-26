@@ -2843,7 +2843,7 @@
         "pk": 285,
         "model": "item.ingredient",
         "fields": {
-            "name": "sensitivity",
+            "name": "sensitive",
             "oily": 1,
             "dry": 1,
             "sensitivity": 1
