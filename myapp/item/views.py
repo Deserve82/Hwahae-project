@@ -72,7 +72,7 @@ def item_detail(request, item_id):
     try:
         item = Item.objects.get(id=item_id)
     except:
-        non_match_item_id_error = "there'no matching item"
+        non_match_item_id_error = "there are no matching items"
         return HttpResponse(non_match_item_id_error)
 
     # 위 'product_list' 함수와 마찬가지로 response_values 리스트에 가공해 넣어줍니다.
@@ -94,7 +94,7 @@ def item_detail(request, item_id):
     skin_type = request.GET.get("skin_type")
 
     if skin_type is None:
-        non_skin_type_error = "please let me know your skin_type!"
+        non_skin_type_error = "please let me know your skin type!"
         return HttpResponse(non_skin_type_error)
 
     elif skin_type == "oily" or skin_type == "dry" or skin_type == "sensitive":
