@@ -6,7 +6,7 @@ from django.http import HttpResponse
 
 def item_list(request):
     """
-    상품 목록을 반환하는 함수, Model은 Item, Ingredient 둘 다 사용했습니다.
+    상품 목록을 반환하는 함수입니다. Model은 Item, Ingredient 둘 다 사용했습니다.
     GET으로 받는 Parameter 들은 스킨타입, 카테고리, 페이지, 포함 성분, 제외 성분이 있습니다.
     """
     ingredients = Ingredient.objects.all()
@@ -34,7 +34,7 @@ def item_list(request):
         return HttpResponse(non_skin_type_error)
 
     elif skin_type == "oily" or skin_type == "dry" or skin_type == "sensitive":
-        # items는 먼저 위에서 받은 스킨타입에 따른 우선순위 정렬을 위한 함수입니다.
+        # input_skin_type은 먼저 위에서 받은 스킨타입에 따른 우선순위 정렬을 위한 함수입니다.
         items = input_skin_type(Item, skin_type, recommend=False)
     
     else:
@@ -42,10 +42,10 @@ def item_list(request):
         wrong_skin_type_error = "please check your skin type again!"
         return HttpResponse(wrong_skin_type_error)
 
-    # item_list는 위 items에서 받은 것들을 카테고리, 페이지, 포함성분, 제외성분을 통해 걸러주는 작업을 합니다.
+    # item_list는 위 items에서 받은 쿼리들을 카테고리, 페이지, 포함성분, 제외성분을 통해 걸러주는 작업을 합니다.
     item_list = list(filt_by_types(items, ingredients, category, page, include_ingredient, exclude_ingredient))
 
-    # 빈 list에 반환 값들을 넣어주는 작업을 합니다.
+    # 빈 list에 값을 가공하여 반환 값들을 넣어주는 작업을 합니다.
     response_values = []
     for item in item_list:
         response_values.append({"id" : item.id,
@@ -68,17 +68,14 @@ def item_detail(request, item_id):
     특정 상품 Id를 받고 그 상품 detail을 반환하는 함수입니다. 
     또한 스킨타입에 따라 추천 상품 3가지도 같이 반환합니다. GET으로 받는 Parameter 들은 스킨타입이 있습니다.
     """
-    # 특정 id를 통해 쉽게 상품 정보를 받아 옵니다.
+    # 특정 id를 통해 쉽게 상품 정보를 받아 옵니다. 상품이 없는 id를 입력한다면 예외처리를 합니다.
     try:
         item = Item.objects.get(id=item_id)
     except:
-        non_match_item_id = "there'no matching item"
-        return HttpResponse(non_match_item_id)
-    skin_type = request.GET.get("skin_type")
+        non_match_item_id_error = "there'no matching item"
+        return HttpResponse(non_match_item_id_error)
 
-    skin_type = request.GET.get("skin_type")
-
-    # 위 'product_list' 함수와 마찬가지로 빈 리스트에 가공해 넣어줍니다.
+    # 위 'product_list' 함수와 마찬가지로 response_values 리스트에 가공해 넣어줍니다.
     response_values = []
     item_detail = {
         "id": item.id,
@@ -94,12 +91,15 @@ def item_detail(request, item_id):
     response_values.append(item_detail)
 
     # 'recomened_items' 이라는 변수에 스킨타입에 따른 추천 순위를 3개 넣어줍니다.
+    skin_type = request.GET.get("skin_type")
 
     if skin_type is None:
         non_skin_type_error = "please let me know your skin_type!"
         return HttpResponse(non_skin_type_error)
+
     elif skin_type == "oily" or skin_type == "dry" or skin_type == "sensitive":
         recomened_items = list(input_skin_type(Item, skin_type, recommend=True))
+
     else:
         wrong_skin_type_error = "please check your skin type again!"
         return HttpResponse(wrong_skin_type_error)

@@ -2,7 +2,7 @@ from django.test import TestCase
 from .models import Item, Ingredient, filt_by_types, input_skin_type
 # Create your tests here.
 
-class ItemIngredientTestCase(TestCase):
+class ModelTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
         ingredient1 = Ingredient.objects.create(name='한글도', oily=1, dry=-1, sensitivity=1)
