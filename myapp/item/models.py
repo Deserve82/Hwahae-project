@@ -152,6 +152,10 @@ def filt_by_types(items, ingredients, category, page, include_ingredient, exclud
     # paginator로 불러지는 query문을 최소화 하기 위해 리스트 형에 담는 것으로 자료형을 바꾸었습니다.
     items=list(items)
     paginator = Paginator(items, 50)
+
+    # 만약 page에 0이 들어가면 초기 화면이 보여지게 설정 했습니다.
+    if page == '0':
+        page = 1
     try:
         items = paginator.get_page(page)
     except PageNotAnInteger:
