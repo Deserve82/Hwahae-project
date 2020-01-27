@@ -69,7 +69,13 @@ def item_detail(request, item_id):
     또한 스킨타입에 따라 추천 상품 3가지도 같이 반환합니다. GET으로 받는 Parameter 들은 스킨타입이 있습니다.
     """
     # 특정 id를 통해 쉽게 상품 정보를 받아 옵니다.
-    item = Item.objects.get(id=item_id)
+    try:
+        item = Item.objects.get(id=item_id)
+    except:
+        non_match_item_id = "there'no matching item"
+        return HttpResponse(non_match_item_id)
+    skin_type = request.GET.get("skin_type")
+
     skin_type = request.GET.get("skin_type")
 
     # 위 'product_list' 함수와 마찬가지로 빈 리스트에 가공해 넣어줍니다.
@@ -88,7 +94,16 @@ def item_detail(request, item_id):
     response_values.append(item_detail)
 
     # 'recomened_items' 이라는 변수에 스킨타입에 따른 추천 순위를 3개 넣어줍니다.
-    recomened_items = list(input_skin_type(Item, skin_type, recommend=True))
+
+    if skin_type is None:
+        non_skin_type_error = "please let me know your skin_type!"
+        return HttpResponse(non_skin_type_error)
+    elif skin_type == "oily" or skin_type == "dry" or skin_type == "sensitive":
+        recomened_items = list(input_skin_type(Item, skin_type, recommend=True))
+    else:
+        wrong_skin_type_error = "please check your skin type again!"
+        return HttpResponse(wrong_skin_type_error)
+
     for item in recomened_items:
         r_item = {
             "id": item.id,
