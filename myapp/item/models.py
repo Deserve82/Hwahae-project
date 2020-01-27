@@ -16,6 +16,7 @@ class Ingredient(models.Model):
     oily = models.IntegerField(default=0)
     dry = models.IntegerField(default=0)
     sensitivity = models.IntegerField(default=0)
+    # 성분 값은 sensitive가 아닌 sensitivity입니다! 주의 해주세요.
 
 
 class Item(models.Model):
