@@ -2,7 +2,7 @@ from django.test import TestCase
 from .models import Item, Ingredient, filt_by_types, input_skin_type
 # Create your tests here.
 
-class ItemTestCase(TestCase):
+class ItemIngredientTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
         ingredient1 = Ingredient.objects.create(name='한글도', oily=1, dry=-1, sensitivity=1)
@@ -29,6 +29,8 @@ class ItemTestCase(TestCase):
         item1 = item1.ingredients.add(ingredient1, ingredient2, ingredient3)
         item2 = item2.ingredients.add(ingredient1, ingredient2)
         item3 = item3.ingredients.add(ingredient3)
+
+    # Ingredient 모델 테스트케이스
     def test_ingredient_oily_field(self):
         ingredient = Ingredient.objects.get(id=1)
         name = ingredient._meta.get_field('oily').verbose_name
@@ -43,12 +45,18 @@ class ItemTestCase(TestCase):
         ingredient = Ingredient.objects.get(id=1)
         name = ingredient._meta.get_field('sensitivity').verbose_name
         self.assertEquals(name, 'sensitivity')
+    
+    def test_ingredient_name_field(self):
+        ingredient = Ingredient.objects.get(id=1)
+        name = ingredient._meta.get_field('name').max_length
+        self.assertEquals(name, 'name')
 
     def test_ingredient_name_length(self):
         ingredient = Ingredient.objects.get(id=1)
         max_length = ingredient._meta.get_field('name').max_length
         self.assertEquals(max_length, 32)
 
+    # Item 모델 테스트 케이스
     def test_item_name_field(self):
         item = Item.objects.get(id=1)
         name = item._meta.get_field('name').verbose_name
@@ -99,8 +107,9 @@ class ItemTestCase(TestCase):
         ingredient_string = item.ingredient_string
         self.assertEquals(ingredient_string, '한글도,시험해,보자')
     
+    # input_skin_type 함수 테스트
     def test_input_skin_type(self):
-        # oily order test
+        # oily 점수에 따라 올바른 순서로 반환하는지 확인하는 테스트케이스
         items = input_skin_type(Item, 'oily', recommend=False)
 
         item1 = Item.objects.get(id=1)
@@ -114,7 +123,7 @@ class ItemTestCase(TestCase):
         self.assertEquals(items[1], item1)
         self.assertEquals(items[2], item2)
 
-        # dry order test
+        # dry 점수에 따라 올바른 순서로 반환하는지 확인하는 테스트케이스
         items = input_skin_type(Item, 'dry', recommend=False)
 
         item1 = Item.objects.get(id=1)
@@ -128,7 +137,7 @@ class ItemTestCase(TestCase):
         self.assertEquals(items[1], item3)
         self.assertEquals(items[2], item1)
 
-        # sensitivity order test
+        # sensitivity 점수에 따라 올바른 순서로 반환하는지 확인하는 테스트케이스
         items = input_skin_type(Item, 'sensitivity', recommend=False)
 
         item1 = Item.objects.get(id=1)
@@ -142,17 +151,30 @@ class ItemTestCase(TestCase):
         self.assertEquals(items[1], item1)
         self.assertEquals(items[2], item3)
     
+    # filt_by_types 함수 테스트
     def test_filt_by_types(self):
+        # include_ingredient 필터가 정상적으로 작동하는지 확인 하는 케이스
         items = Item.objects.all()
         ingredients = Ingredient.objects.all()
         category = None
         page = 1
         include_ingredient = ['한글도' , '시험해']
-        exclude_ingredient = ['보자']
+        exclude_ingredient = []
         item = filt_by_types(items, ingredients, category, page, include_ingredient, exclude_ingredient)
         filtered_item = Item.objects.get(id=2)
         self.assertEquals(item[0], filtered_item)
 
+        # exclude_ingredeint 필터가 정상적으로 작동하는지 확인 하는 케이스
+        category = None
+        page = None
+        items = input_skin_type(Item, 'oily', False)
+        include_ingredient = []
+        exclude_ingredient = ['한글도']
+        item = filt_by_types(items, ingredients, category, page, include_ingredient, exclude_ingredient)
+        filtered_item = Item.objects.get(id=3)
+        self.assertEqual(item[0], filtered_item)
+
+        # category 필터가 정상적으로 정상적으로 작동하는지 확인 하는 케이스
         category = 'suncare'
         page = None
         include_ingredient = []
@@ -161,6 +183,7 @@ class ItemTestCase(TestCase):
         filtered_item = Item.objects.get(id=3)
         self.assertEqual(item[0], filtered_item)
 
+        # input_skin_type 함수가 적용되서 반환되는지 확인 하는 케이스
         category = None
         page = None
         items = input_skin_type(Item, 'sensitivity', False)
